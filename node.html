@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(() => {
+            $("#bookno").blur(() => {
+                let boono = $("#bookno").val();
+                let parameterfunction = {
+                    data: { bookno: bookno },
+                    type: "get",
+                    dataType: "json",
+                    url: "http://localhost:8081/mdel",
+                    success: (datagivenbyserver) => {
+                        console.log(datagivenbyserver);
+                        if (datagivenbyserver.status) {
+                            $("#bookname").val(datagivenbyserver.bookdetails.bookname);
+                            $("#price").val(datagivenbyserver.bookdetails.price);
+                            $("#msg").text("book  found");
+                        } else {
+                            $("#booname").val("");
+                            $("#price").val("");
+                            $("#booname").val("");
+                            $("msg").text("book not found");
+                        }
+                    },
+                    error: (errorgivenbyserver) => {
+                        console.log("failed to coonect" + errorgivenbyserver);
+                    },
+                };
+                $.ajax(parameterfunction);
+            });
+            $("#add").click(() => {
+                if (
+                    $("#bookno").val() != " " &&
+                    $("#bookname").val() != " " &&
+                    $("#price").val() != " "
+                ) {
+                    let input = {
+                        bookno: $("#bookno").val(),
+                        bookname: $("#bookname").val(),
+                        price: $("#price").val(),
+                    };
+                    let parameterfunction = {
+                        data: { bookno: bookno },
+                        type: "get",
+                        dataType: "json",
+                        url: "http://localhost:8081/mdel",
+                        success: (datagivenbyserver) => {
+                            console.log(datagivenbyserver);
+                            if (datagivenbyserver) {
+                                $("#msg").text("item added");
+
+                            } else {
+                                $("#msg").text("error");
+                            }
+                        },
+                        error: (errorgivenbyserver) => {
+                            console.log("failed to connect" + errorgivenbyserver);
+                        },
+                    };
+                    $.ajax(parameterfunction);
+                }
+            });
+    
+
+
+            });
+    </script>
+</head>
+
+<body>
+<br /> <div class="main">
+    <input type="text " id="bookno" placeholder="book number" />
+    <span id="msg"></span> <br />
+    <br />
+    <input type="text " id="bookname" placeholder="book name" />
+    <br /> <br />
+    <input type="text " id="price" placeholder="price" />
+    <br/><br />
+    <button id="add" class="button">adda book</button>
+     <button id="veiall" class="button">view all book</button>
+     <p id="display"></p>
+</div>
+</body>
+
+</html>
